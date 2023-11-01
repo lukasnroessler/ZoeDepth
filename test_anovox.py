@@ -8,19 +8,19 @@ repo = "isl-org/ZoeDepth"
 # model_zoe_n = torch.hub.load(repo, "ZoeD_N", pretrained=True)
 
 # Zoe_K trained on KITTI
-model_zoe_k = torch.hub.load(repo, "ZoeD_K", pretrained=True)
+# model_zoe_k = torch.hub.load(repo, "ZoeD_K", pretrained=True, config_mode='eval')
 
 # Zoe_NK
-# model_zoe_nk = torch.hub.load(repo, "ZoeD_NK", pretrained=True)
+model_zoe_nk = torch.hub.load(repo, "ZoeD_NK", pretrained=True)
 
 ##### sample prediction
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-zoe = model_zoe_k.to(DEVICE)
+zoe = model_zoe_nk.to(DEVICE)
 
 
 # Local file
 from PIL import Image
-image = Image.open("/home/lukasnroessler/Anomaly_Datasets/AnoVox/Scenario_a4a64f17-86c0-441c-aeb1-0bd6bb265415/RGB_IMG/RGB_IMG_64.png").convert("RGB")  # load
+image = Image.open("/home/lukasnroessler/Anomaly_Datasets/AnoVox/Scenario_c8d20e26-7eaf-425b-8f86-c26bdd4ba365/RGB_IMG/RGB_IMG_271.png").convert("RGB")  # load
 depth_numpy = zoe.infer_pil(image)  # as numpy
 
 depth_pil = zoe.infer_pil(image, output_type="pil")  # as 16-bit PIL Image
